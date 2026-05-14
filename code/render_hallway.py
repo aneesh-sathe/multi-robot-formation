@@ -139,7 +139,7 @@ class HallwayRenderer:
         env_idx: int = 0,
         episode_step: int = 0,
         total_reward: float = 0.0,
-        formation_scale: float = FORMATION_SCALE,
+        formation_scale: float | None = None,
     ):
         if self.surface is None:
             self.init()
@@ -148,8 +148,9 @@ class HallwayRenderer:
         teleop = env.teleop_mask[env_idx].detach().cpu().numpy()
         active_idx = np.where(teleop < 0.5)[0]
         ps_active = ps[active_idx]
+        scale = float(env.cfg.get("formation_scale", FORMATION_SCALE)) if formation_scale is None else float(formation_scale)
         self._draw_formation_overlay(self.surface, ps_active, k=len(active_idx),
-                                     scale=formation_scale)
+                                     scale=scale)
         self._draw_robots(self.surface, ps, teleop)
         self._draw_hud(self.surface, active_count=len(active_idx),
                        episode_step=episode_step, total_reward=total_reward)

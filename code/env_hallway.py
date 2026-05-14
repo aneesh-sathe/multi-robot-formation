@@ -92,6 +92,8 @@ class FormationHallwayEnv(gym.Env):
         cfg.setdefault("max_time_steps", DEFAULT_MAX_TIME_STEPS)
         cfg.setdefault("pos_noise_std", 0.0)
         cfg.setdefault("formation_scale", FORMATION_SCALE)
+        min_clearance_scale = 2.5 * float(cfg["agent_radius"])
+        cfg["formation_scale"] = max(float(cfg["formation_scale"]), min_clearance_scale)
         cfg.setdefault("render_px_per_m", DEFAULT_RENDER_PX_PER_M)
         cfg.setdefault("spawn_y", SPAWN_Y)
         cfg.setdefault("goal_y", GOAL_Y)
@@ -104,11 +106,12 @@ class FormationHallwayEnv(gym.Env):
             (gym.spaces.Box(low=-cfg["max_v"], high=cfg["max_v"], shape=(2,), dtype=float),) * n
         )
         max_t = cfg["max_time_steps"] * cfg["dt"]
+        world_bound = max(float(cfg["world_dim"][0]), float(cfg["world_dim"][1]))
         self.observation_space = gym.spaces.Dict(
             {
-                "pos": gym.spaces.Box(-WORLD_H, WORLD_H, shape=(n, 2), dtype=float),
+                "pos": gym.spaces.Box(-world_bound, world_bound, shape=(n, 2), dtype=float),
                 "vel": gym.spaces.Box(-1e5, 1e5, shape=(n, 2), dtype=float),
-                "goal": gym.spaces.Box(-WORLD_H, WORLD_H, shape=(n, 2), dtype=float),
+                "goal": gym.spaces.Box(-world_bound, world_bound, shape=(n, 2), dtype=float),
                 "teleop_mask": gym.spaces.Box(0.0, 1.0, shape=(n,), dtype=float),
                 "present_mask": gym.spaces.Box(0.0, 1.0, shape=(n,), dtype=float),
                 "time": gym.spaces.Box(0.0, max_t, shape=(n, 1), dtype=float),
