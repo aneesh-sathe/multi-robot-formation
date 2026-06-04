@@ -81,8 +81,8 @@ def make_config(num_envs: int, max_time_steps: int, device: str) -> dict:
             "max_grabs_per_env": 3,
         },
         "curriculum": {
-            "radius_start": 0.12,
-            "radius_end": 0.08,
+            "radius_start": 0.2,
+            "radius_end": 0.2,
         },
     }
 

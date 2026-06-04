@@ -22,17 +22,17 @@ Target formation: 4->square, 3->triangle, 2->horizontal line, 1->no formation te
 MAX_AGENTS = 4
 
 DT = 0.05
-WORLD_W = 2.0
-WORLD_H = 12.0
+WORLD_W = 8.0
+WORLD_H = 8.0
 
-SPAWN_Y = -5.0
-GOAL_Y = 5.0
+SPAWN_Y = -3.0
+GOAL_Y = 3.0
 
 MAX_V = 1.0
 MAX_A = 2.0
 MIN_A = -2.0
 
-AGENT_RADIUS = 0.08
+AGENT_RADIUS = 0.2
 
 FORMATION_SCALE = 0.35
 
